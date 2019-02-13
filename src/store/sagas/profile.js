@@ -25,7 +25,7 @@ export function* setPreferences(action) {
     toast.error('Ocorreu em erro ao tentar alterar as preferências.');
   }
   else {
-    yield put(push('/main'));
+    yield put(push('/dashboard'));
     yield put(ProfileActions.setPreferencesSuccess(response.data));
     toast.success('Preferências alteradas.');
   }
@@ -45,7 +45,7 @@ export function* setProfile(action) {
     }
   }
   else {
-    yield put(push('/main'));
+    yield put(push('/dashboard'));
     yield put(ProfileActions.setProfileSuccess(response.data));
     toast.success('Perfil alterado.');
   }

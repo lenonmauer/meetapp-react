@@ -13,7 +13,7 @@ export function* login(action) {
 
     yield put(LoginActions.postLoginSuccess());
 
-    return response.data.first_login ? yield put(push('/preferences')) : yield put(push('/main'));
+    return response.data.first_login ? yield put(push('/preferences')) : yield put(push('/dashboard'));
   }
   if (response.status === 401) {
     toast.error('E-mail ou senha inválidos.');

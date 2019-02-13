@@ -26,7 +26,7 @@ class Login extends Component {
     const { logged } = this.props.login;
 
     if (logged === true) {
-      push('/main');
+      push('/dashboard');
     }
   }
 

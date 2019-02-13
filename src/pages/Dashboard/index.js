@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import { Container } from './styles';
 
-class Main extends Component {
+class Dashboard extends Component {
   componentWillMount() {
 
   }
 
   render() {
     return (
-      <Container>Main</Container>
+      <Container>Dashboard</Container>
     );
   }
 }
@@ -19,4 +19,4 @@ const mapStateToProps = state => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps)(Dashboard);

@@ -14,7 +14,7 @@ const Navbar = ({ pathname }) => {
       <Brand />
 
       <Navigation>
-        <NavigationLink to="/main">Início</NavigationLink>
+        <NavigationLink to="/dashboard">Início</NavigationLink>
         <NavigationLink to="/search">Buscar</NavigationLink>
         <NavigationLink to="/new-meetup">Novo meetup</NavigationLink>
 
