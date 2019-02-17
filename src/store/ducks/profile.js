@@ -1,6 +1,6 @@
 import { createActions, createReducer } from 'reduxsauce';
 
-export const { Types, Creators } = createActions({
+const { Types, Creators } = createActions({
   getProfileRequest: [],
   getProfileSuccess: ['data'],
   getProfileComplete: [],
@@ -33,7 +33,7 @@ const endLoading = (state = INITIAL_STATE) => ({
   loading: false,
 });
 
-export default createReducer(INITIAL_STATE, {
+export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST]: request,
   [Types.GET_PROFILE_SUCCESS]: success,
   [Types.GET_PROFILE_COMPLETE]: endLoading,
@@ -44,3 +44,7 @@ export default createReducer(INITIAL_STATE, {
   [Types.SET_PREFERENCES_SUCCESS]: success,
   [Types.SET_PREFERENCES_COMPLETE]: endLoading,
 });
+
+export const ProfileTypes = Types;
+
+export const ProfileActions = Creators;

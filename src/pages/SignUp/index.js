@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Creators as SignUpActions } from '../../store/ducks/signup';
+import { SignUpActions } from '../../store/ducks/signup';
 
 import {
   Input, InputLabel, Spinner, Button,
@@ -17,7 +17,7 @@ import {
 
 class SignUp extends Component {
   state = {
-    username: '',
+    name: '',
     email: '',
     password: '',
   }
@@ -46,8 +46,8 @@ class SignUp extends Component {
             <Input
               type="text"
               placeholder="Digite seu nome"
-              name="username"
-              value={this.state.username}
+              name="name"
+              value={this.state.name}
               onChange={this.onInputChange}
             />
           </InputWrapper>

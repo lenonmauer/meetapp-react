@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { push } from 'connected-react-router';
 import api from '../../services/api';
 
-import { Creators as SignUpActions } from '../ducks/signup';
+import { SignUpActions } from '../ducks/signup';
 
 export function* signUp(action) {
   const response = yield call(api.post, '/users', action.data);

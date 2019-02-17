@@ -1,6 +1,6 @@
 import { createActions, createReducer } from 'reduxsauce';
 
-export const { Types, Creators } = createActions({
+const { Types, Creators } = createActions({
   postLoginRequest: ['data'],
   postLoginSuccess: [],
   postLoginFailure: [],
@@ -34,9 +34,13 @@ const logout = (state = INITIAL_STATE) => ({
   logged: false,
 });
 
-export default createReducer(INITIAL_STATE, {
+export const reducer = createReducer(INITIAL_STATE, {
   [Types.POST_LOGIN_REQUEST]: request,
   [Types.POST_LOGIN_SUCCESS]: success,
   [Types.POST_LOGIN_FAILURE]: failure,
   [Types.LOGOUT]: logout,
 });
+
+export const LoginTypes = Types;
+
+export const LoginActions = Creators;

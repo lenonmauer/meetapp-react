@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 
-import { Creators as CategoriesActions } from '../ducks/categories';
+import { CategoriesActions } from '../ducks/categories';
 
 export function* getCategories() {
   const response = yield call(api.get, '/categories');

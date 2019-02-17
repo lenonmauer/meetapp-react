@@ -1,6 +1,6 @@
 import { createActions, createReducer } from 'reduxsauce';
 
-export const { Types, Creators } = createActions({
+const { Types, Creators } = createActions({
   getCategoriesRequest: [],
   getCategoriesSuccess: ['data'],
   getCategoriesFailure: ['data'],
@@ -27,8 +27,13 @@ const failure = (state = INITIAL_STATE) => ({
   loading: false,
 });
 
-export default createReducer(INITIAL_STATE, {
+export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_CATEGORIES_REQUEST]: request,
   [Types.GET_CATEGORIES_SUCCESS]: success,
   [Types.GET_CATEGORIES_FAILURE]: failure,
 });
+
+
+export const CategoriesTypes = Types;
+
+export const CategoriesActions = Creators;

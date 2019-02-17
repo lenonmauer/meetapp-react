@@ -1,6 +1,6 @@
 import { createActions, createReducer } from 'reduxsauce';
 
-export const { Types, Creators } = createActions({
+const { Types, Creators } = createActions({
   postSignUpRequest: ['data'],
   postSignUpComplete: [],
 });
@@ -19,7 +19,11 @@ const complete = (state = INITIAL_STATE) => ({
   loading: false,
 });
 
-export default createReducer(INITIAL_STATE, {
+export const reducer = createReducer(INITIAL_STATE, {
   [Types.POST_SIGN_UP_REQUEST]: request,
   [Types.POST_SIGN_UP_COMPLETE]: complete,
 });
+
+export const SignUpTypes = Types;
+
+export const SignUpActions = Creators;

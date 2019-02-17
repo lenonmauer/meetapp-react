@@ -8,8 +8,8 @@ import {
   Button, Checkbox, InputLabel, Spinner,
 } from '../../components';
 
-import { Creators as ProfileActions } from '../../store/ducks/profile';
-import { Creators as CategoriesActions } from '../../store/ducks/categories';
+import { ProfileActions } from '../../store/ducks/profile';
+import { CategoriesActions } from '../../store/ducks/categories';
 
 import {
   Container, Box, DisplayName, Text, CategoriesWrapper,
@@ -88,7 +88,7 @@ class Preferences extends Component {
     return (
       <Container>
         <Box>
-          <DisplayName>Olá, {profile.username}</DisplayName>
+          <DisplayName>Olá, {profile.name}</DisplayName>
           <Text>
             Parece que é seu primeiro acesso por aqui, comece escolhendo algumas preferências para
             selecionarmos os melhores meetups pra você:
@@ -131,7 +131,7 @@ Preferences.propTypes = {
   loadingCategories: PropTypes.bool.isRequired,
   loadingProfile: PropTypes.bool.isRequired,
   profile: PropTypes.shape({
-    username: PropTypes.string,
+    name: PropTypes.string,
     categories: PropTypes.array,
   }),
   categories: PropTypes.arrayOf(PropTypes.shape({

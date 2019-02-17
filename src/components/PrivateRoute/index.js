@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import { Creators as LoginActions } from '../../store/ducks/login';
+import { LoginActions } from '../../store/ducks/login';
 
 const PrivateRoute = (props) => {
   const { component: Component, ...rest } = props;

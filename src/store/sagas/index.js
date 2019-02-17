@@ -5,10 +5,10 @@ import { signUp } from './signup';
 import { getProfile, setPreferences, setProfile } from './profile';
 import { getCategories } from './categories';
 
-import { Types as LoginTypes } from '../ducks/login';
-import { Types as SignUpTypes } from '../ducks/signup';
-import { Types as ProfileTypes } from '../ducks/profile';
-import { Types as CategoriesTypes } from '../ducks/categories';
+import { LoginTypes } from '../ducks/login';
+import { SignUpTypes } from '../ducks/signup';
+import { ProfileTypes } from '../ducks/profile';
+import { CategoriesTypes } from '../ducks/categories';
 
 export default function* rootSaga() {
   yield all([

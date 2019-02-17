@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { Creators as LoginActions } from '../../store/ducks/login';
+import { LoginActions } from '../../store/ducks/login';
 
 class Logout extends Component {
   componentWillMount() {

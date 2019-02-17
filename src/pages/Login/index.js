@@ -10,7 +10,7 @@ import {
   Button, Input, InputLabel, Spinner,
 } from '../../components';
 
-import { Creators as LoginActions } from '../../store/ducks/login';
+import { LoginActions } from '../../store/ducks/login';
 
 import {
   Container, Form, InputWrapper, AccountLink,

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 
-import login from './login';
-import profile from './profile';
-import signup from './signup';
-import categories from './categories';
+import { reducer as login } from './login';
+import { reducer as profile } from './profile';
+import { reducer as signup } from './signup';
+import { reducer as categories } from './categories';
 
 export default history => combineReducers({
   router: connectRouter(history),

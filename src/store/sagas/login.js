@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { push } from 'connected-react-router';
 import api from '../../services/api';
 
-import { Creators as LoginActions } from '../ducks/login';
+import { LoginActions } from '../ducks/login';
 
 export function* login(action) {
   const response = yield call(api.post, '/login', action.data);
@@ -25,5 +25,5 @@ export function* login(action) {
     toast.error('Ocorreu em erro no servidor nesta requisição.');
   }
 
-  yield put(LoginActions.postLoginFailure());
+  return yield put(LoginActions.postLoginFailure());
 }

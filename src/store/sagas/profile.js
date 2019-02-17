@@ -3,7 +3,7 @@ import { push } from 'connected-react-router';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 
-import { Creators as ProfileActions } from '../ducks/profile';
+import { ProfileActions } from '../ducks/profile';
 
 export function* getProfile() {
   const response = yield call(api.get, '/profile');

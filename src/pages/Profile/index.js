@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Creators as ProfileActions } from '../../store/ducks/profile';
-import { Creators as CategoriesActions } from '../../store/ducks/categories';
+import { ProfileActions } from '../../store/ducks/profile';
+import { CategoriesActions } from '../../store/ducks/categories';
 
 import {
   Button, Input, InputLabel, Checkbox, Spinner,
@@ -18,7 +18,7 @@ import {
 class Profile extends Component {
   state = {
     categories: [],
-    username: '',
+    name: '',
     password: '',
     password_confirmation: '',
   }
@@ -95,8 +95,8 @@ class Profile extends Component {
             <Input
               type="text"
               placeholder="Digite seu nome"
-              value={this.state.username}
-              name="username"
+              value={this.state.name}
+              name="name"
               onChange={this.onInputChange}
             />
           </InputWrapper>
@@ -156,7 +156,7 @@ class Profile extends Component {
 
 Profile.propTypes = {
   profile: PropTypes.shape({
-    username: PropTypes.string,
+    name: PropTypes.string,
     password: PropTypes.string,
     categories: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
