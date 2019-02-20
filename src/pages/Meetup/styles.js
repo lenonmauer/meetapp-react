@@ -55,3 +55,10 @@ export const Location = styled.span`
 export const ButtonWrapper = styled.div`
   margin-bottom: 20px;
 `;
+
+export const SubscriptMessage = styled.div`
+  background: #60BB71;
+  padding: 12px;
+  border-radius: 20px;
+  text-align: center;
+`;

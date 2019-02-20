@@ -19,7 +19,7 @@ class Dashboard extends Component {
 
   render() {
     const { meetups, loadingMeetups } = this.props;
-    const { enrollments, next, recommended } = meetups;
+    const { subscriptions, next, recommended } = meetups;
 
     if (loadingMeetups) {
       return <Spinner marginTop="30px" />;
@@ -31,8 +31,8 @@ class Dashboard extends Component {
           <Title>Inscrições</Title>
           <MeetupWrapper>
             {
-              enrollments.length
-                ? enrollments.map(meetup => <MeetupItem key={meetup.id} {...meetup} />)
+              subscriptions.length
+                ? subscriptions.map(meetup => <MeetupItem key={meetup.id} {...meetup} />)
                 : <EmptyMessage>Nenhum meetup encontrado nesta seção.</EmptyMessage>
             }
           </MeetupWrapper>
@@ -66,25 +66,16 @@ class Dashboard extends Component {
   }
 }
 
-const formatMeetups = (meetups) => {
-  if (!meetups || !meetups.enrollments) {
+const sanitizeMeetups = (meetups) => {
+  if (!meetups || !meetups.subscriptions) {
     return {
-      enrollments: [],
+      subscriptions: [],
       next: [],
       recommended: [],
     };
   }
 
-  const mergeCount = meetup => ({
-    ...meetup,
-    members_count: meetup.__meta__.subscriptions_count,
-  });
-
-  return {
-    enrollments: meetups.enrollments.map(mergeCount),
-    next: meetups.next.map(mergeCount),
-    recommended: meetups.recommended.map(mergeCount),
-  };
+  return meetups;
 };
 
 Dashboard.defaultProps = {
@@ -95,7 +86,7 @@ Dashboard.propTypes = {
   getMeetupsRequest: PropTypes.func.isRequired,
   loadingMeetups: PropTypes.bool.isRequired,
   meetups: PropTypes.shape({
-    enrollments: PropTypes.arrayOf(PropTypes.shape({
+    subscriptions: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
       title: PropTypes.string,
       members_count: PropTypes.number,
@@ -117,7 +108,7 @@ Dashboard.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  meetups: formatMeetups(state.meetup.data),
+  meetups: sanitizeMeetups(state.meetup.data),
   loadingMeetups: state.meetup.loading,
 });
 

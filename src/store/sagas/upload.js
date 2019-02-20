@@ -24,7 +24,7 @@ export function* doUpload(action) {
   else {
     yield put(toastrActions.add({
       type: 'error',
-      message: 'Ocorreu em erro no upload do arquivo..',
+      message: 'Ocorreu em erro no upload do arquivo.',
     }));
   }
 

@@ -9,16 +9,45 @@ import { SubscriptionActions } from '../../store/ducks/subscription';
 import { Spinner, Button } from '../../components';
 
 import {
-  Container, Thumbnail, Content, Title, MembersCount, Description, HeldIn, Location, ButtonWrapper,
+  Container, Thumbnail, Content, Title, MembersCount, Description, HeldIn, Location, ButtonWrapper, SubscriptMessage,
 } from './styles';
 
 class Meetup extends Component {
+  state = {
+    subscript: false,
+  }
+
   componentDidMount() {
     this.props.getMeetupRequest(this.props.match.params.id);
   }
 
+  setSubscript = () => {
+    this.setState({
+      subscript: true,
+    });
+  }
+
+  renderSubscriptionButton = () => {
+    const { meetup, loadingSubscription } = this.props;
+
+    return (
+      loadingSubscription
+        ? <Spinner />
+        : (
+          <ButtonWrapper>
+            <Button
+              onClick={() => this.props.postSubscriptionRequest(meetup.id, this.setSubscript)}
+            >
+          Inscreva-se
+            </Button>
+          </ButtonWrapper>
+        )
+    );
+  }
+
   render() {
     const { meetup, loadingMeetup } = this.props;
+    const isSubscript = this.state.subscript || (meetup && meetup.subscript);
 
     if (!meetup || loadingMeetup) {
       return <Spinner marginTop="30px" />;
@@ -33,9 +62,15 @@ class Meetup extends Component {
           <Description>{meetup.description}</Description>
           <HeldIn>Realizado em:</HeldIn>
           <Location>{meetup.localization}</Location>
-          <ButtonWrapper>
-            <Button>Inscreva-se</Button>
-          </ButtonWrapper>
+          {
+            isSubscript
+              ? (
+                <SubscriptMessage>
+                  Estou inscrito neste meetup.
+                </SubscriptMessage>
+              )
+              : this.renderSubscriptionButton()
+          }
         </Content>
       </Container>
     );
@@ -48,6 +83,7 @@ Meetup.defaultProps = {
 
 Meetup.propTypes = {
   getMeetupRequest: PropTypes.func.isRequired,
+  postSubscriptionRequest: PropTypes.func.isRequired,
   loadingMeetup: PropTypes.bool.isRequired,
   meetup: PropTypes.shape({
     photo_url: PropTypes.string.isRequired,
@@ -58,25 +94,23 @@ Meetup.propTypes = {
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }),
   }).isRequired,
 };
 
-const mergeCount = (meetup) => {
+const sanitizeMeetup = (meetup) => {
   if (!meetup || !meetup.id) {
     return null;
   }
 
-  return {
-    ...meetup,
-    members_count: meetup.__meta__.subscriptions_count,
-  };
+  return meetup;
 };
 
 const mapStateToProps = state => ({
-  meetup: mergeCount(state.meetup.data),
+  meetup: sanitizeMeetup(state.meetup.data),
   loadingMeetup: state.meetup.loading,
+  loadingSubscription: state.subscription.loading,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

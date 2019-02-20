@@ -10,7 +10,7 @@ export function* newMeetup(action) {
   if (response.ok) {
     yield put(toastrActions.add({
       type: 'success',
-      message: 'Meetup Cadastrado com Sucesso..',
+      message: 'Meetup Cadastrado com Sucesso.',
     }));
     action.callback();
   }
@@ -23,7 +23,7 @@ export function* newMeetup(action) {
   else {
     yield put(toastrActions.add({
       type: 'error',
-      message: 'Ocorreu em erro no servidor nesta requisição..',
+      message: 'Ocorreu em erro no servidor nesta requisição.',
     }));
   }
 
@@ -39,7 +39,7 @@ export function* getMeetups() {
   else {
     yield put(toastrActions.add({
       type: 'error',
-      message: 'Ocorreu em erro no servidor nesta requisição..',
+      message: 'Ocorreu em erro no servidor nesta requisição.',
     }));
   }
 
@@ -55,7 +55,7 @@ export function* getMeetup(action) {
   else {
     yield put(toastrActions.add({
       type: 'error',
-      message: 'Ocorreu em erro no servidor nesta requisição..',
+      message: 'Ocorreu em erro no servidor nesta requisição.',
     }));
   }
 
@@ -71,7 +71,7 @@ export function* searchMeetups(action) {
   else {
     yield put(toastrActions.add({
       type: 'error',
-      message: 'Ocorreu em erro no servidor nesta requisição..',
+      message: 'Ocorreu em erro no servidor nesta requisição.',
     }));
   }
 

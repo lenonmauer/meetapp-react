@@ -1,7 +1,7 @@
 import { createActions, createReducer } from 'reduxsauce';
 
 const { Types, Creators } = createActions({
-  postSubscriptionRequest: ['id'],
+  postSubscriptionRequest: ['id', 'callback'],
   postSubscriptionComplete: [],
 });
 
