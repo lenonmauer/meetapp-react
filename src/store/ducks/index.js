@@ -9,14 +9,16 @@ import { reducer as signup } from './signup';
 import { reducer as categories } from './categories';
 import { reducer as upload } from './upload';
 import { reducer as meetup } from './meetup';
+import { reducer as subscription } from './subscription';
 
 export default history => combineReducers({
   router: connectRouter(history),
+  toastr,
   login,
   meetup,
   profile,
   signup,
   categories,
   upload,
-  toastr,
+  subscription,
 });
