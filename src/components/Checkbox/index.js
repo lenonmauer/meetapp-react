@@ -20,6 +20,7 @@ Checkbox.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   children: PropTypes.string.isRequired,
+  checked: PropTypes.bool.isRequired,
 };
 
 export default Checkbox;

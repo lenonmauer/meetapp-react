@@ -142,6 +142,9 @@ const mapStateToProps = state => ({
   loadingProfile: state.profile.loading,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ ...CategoriesActions, ...ProfileActions }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  ...CategoriesActions,
+  ...ProfileActions,
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Preferences);

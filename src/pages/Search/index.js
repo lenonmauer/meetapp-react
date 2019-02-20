@@ -10,7 +10,8 @@ import { Spinner } from '../../components';
 import MeetupItem from '../../components/MeetupItem';
 
 import {
-  Container, MeetupSection, MeetupWrapper, Title, EmptyMessage, SearchContainer, SearchInput, MeetupsContainer,
+  Container, MeetupSection, MeetupWrapper, Title,
+  EmptyMessage, SearchContainer, SearchInput, MeetupsContainer,
 } from './styles';
 
 class Search extends Component {
