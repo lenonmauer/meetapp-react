@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -66,10 +65,6 @@ class Preferences extends Component {
 
   onSubmit = () => {
     const { categories } = this.state;
-
-    if (!categories.length) {
-      return toast.error('Selecione pelo menos uma categoria.');
-    }
 
     this.props.setPreferencesRequest({ categories });
 

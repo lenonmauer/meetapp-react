@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import { toast } from 'react-toastify';
+import { actions as toastrActions } from 'react-redux-toastr';
 import { push } from 'connected-react-router';
 import api from '../../services/api';
 
@@ -16,13 +16,22 @@ export function* login(action) {
     return response.data.first_login ? yield put(push('/preferences')) : yield put(push('/dashboard'));
   }
   if (response.status === 401) {
-    toast.error('E-mail ou senha inválidos.');
+    yield put(toastrActions.add({
+      type: 'error',
+      message: 'E-mail ou senha inválidos.',
+    }));
   }
   else if (response.status === 400) {
-    toast.error(response.data[0].message);
+    yield put(toastrActions.add({
+      type: 'error',
+      message: response.data[0].message,
+    }));
   }
   else {
-    toast.error('Ocorreu em erro no servidor nesta requisição.');
+    yield put(toastrActions.add({
+      type: 'error',
+      message: 'Ocorreu em erro no servidor nesta requisição.',
+    }));
   }
 
   return yield put(LoginActions.postLoginFailure());

@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import { toast } from 'react-toastify';
+import { actions as toastrActions } from 'react-redux-toastr';
 import api from '../../services/api';
 
 import { CategoriesActions } from '../ducks/categories';
@@ -12,6 +12,10 @@ export function* getCategories() {
   }
   else {
     yield put(CategoriesActions.getCategoriesFailure());
-    toast.error('Ocorreu em erro ao tentar as preferências.');
+
+    yield put(toastrActions.add({
+      type: 'error',
+      message: 'Ocorreu em erro ao buscar as categorias.',
+    }));
   }
 }

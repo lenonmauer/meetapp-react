@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+import ReduxToastr from 'react-redux-toastr';
 import { ConnectedRouter } from 'connected-react-router';
 
 import GlobalStyle from './styles/global';
@@ -23,7 +23,7 @@ const App = () => (
         <Content>
           <Navbar />
           <Routes />
-          <ToastContainer />
+          <ReduxToastr />
         </Content>
       </Container>
     </ConnectedRouter>

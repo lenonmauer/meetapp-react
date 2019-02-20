@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -66,15 +65,9 @@ class Profile extends Component {
     });
   };
 
-  onSubmit = () => {
-    const { categories } = this.state;
-
-    if (!categories.length) {
-      return toast.error('Selecione pelo menos uma categoria.');
-    }
-
+  onSubmit = (event) => {
+    event.preventDefault();
     this.props.setProfileRequest(this.state);
-
     return null;
   }
 
@@ -89,7 +82,7 @@ class Profile extends Component {
 
     return (
       <Container>
-        <Form>
+        <Form onSubmit={this.onSubmit}>
           <InputWrapper>
             <InputLabel>Nome</InputLabel>
             <Input
@@ -144,7 +137,7 @@ class Profile extends Component {
           {loadingProfile ? (
             <Spinner />
           ) : (
-            <Button type="button" onClick={this.onSubmit}>
+            <Button type="submit">
               Salvar
             </Button>
           )}
@@ -154,15 +147,16 @@ class Profile extends Component {
   }
 }
 
+Profile.defaultProps = {
+  profile: null,
+};
+
 Profile.propTypes = {
   profile: PropTypes.shape({
     name: PropTypes.string,
     password: PropTypes.string,
-    categories: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-    })),
-  }).isRequired,
+    categories: PropTypes.arrayOf(PropTypes.number),
+  }),
   categories: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,

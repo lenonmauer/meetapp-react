@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import { toast } from 'react-toastify';
+import { actions as toastrActions } from 'react-redux-toastr';
 import { push } from 'connected-react-router';
 import api from '../../services/api';
 
@@ -9,14 +9,24 @@ export function* signUp(action) {
   const response = yield call(api.post, '/users', action.data);
 
   if (response.ok) {
+    yield put(toastrActions.add({
+      type: 'success',
+      message: 'Cadastro realizado com sucesso. Faça o login.',
+    }));
+
     yield put(push('/login'));
-    toast.success('Cadastro realizado com sucesso. Faça o login.');
   }
   else if (response.status === 400) {
-    toast.error(response.data[0].message);
+    yield put(toastrActions.add({
+      type: 'error',
+      message: response.data[0].message,
+    }));
   }
   else {
-    toast.error('Ocorreu em erro no servidor nesta requisição.');
+    yield put(toastrActions.add({
+      type: 'error',
+      message: 'Ocorreu em erro no servidor nesta requisição.',
+    }));
   }
 
   yield put(SignUpActions.postSignUpComplete());

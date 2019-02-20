@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
-import { toast } from 'react-toastify';
+import { actions as toastrActions } from 'react-redux-toastr';
 import api from '../../services/api';
 
 import { ProfileActions } from '../ducks/profile';
@@ -12,43 +12,77 @@ export function* getProfile() {
     yield put(ProfileActions.getProfileSuccess(response.data));
   }
   else {
-    toast.error('Ocorreu em erro ao tentar buscar os dados do seu perfil.');
+    yield put(toastrActions.add({
+      type: 'error',
+      message: 'Ocorreu em erro ao tentar buscar os dados do seu perfil.',
+    }));
   }
 
-  yield put(ProfileActions.getProfileComplete());
+  return yield put(ProfileActions.getProfileComplete());
 }
 
 export function* setPreferences(action) {
-  const response = yield call(api.put, '/user-categories', action.data);
-
-  if (!response.ok) {
-    toast.error('Ocorreu em erro ao tentar alterar as preferências.');
+  if (!action.data.length) {
+    yield put(toastrActions.add({
+      type: 'error',
+      message: 'Selecione pelo menos uma categoria.',
+    }));
   }
   else {
-    yield put(push('/dashboard'));
-    yield put(ProfileActions.setPreferencesSuccess(response.data));
-    toast.success('Preferências alteradas.');
+    const response = yield call(api.put, '/user-categories', action.data);
+
+    if (!response.ok) {
+      yield put(toastrActions.add({
+        type: 'error',
+        message: 'Ocorreu em erro ao tentar alterar as preferências.',
+      }));
+    }
+    else {
+      yield put(ProfileActions.setPreferencesSuccess(response.data));
+      yield put(toastrActions.add({
+        type: 'success',
+        message: 'Preferências alteradas.',
+      }));
+      yield put(push('/dashboard'));
+    }
   }
 
-  yield put(ProfileActions.setPreferencesComplete(response.data));
+  return yield put(ProfileActions.setPreferencesComplete());
 }
 
 export function* setProfile(action) {
-  const response = yield call(api.put, '/users', action.data);
-
-  if (!response.ok) {
-    if (response.status === 400) {
-      toast.error(response.data[0].message);
-    }
-    else {
-      toast.error('Ocorreu em erro ao tentar alterar o perfil');
-    }
+  if (!action.data.categories.length) {
+    yield put(toastrActions.add({
+      type: 'error',
+      message: 'Selecione pelo menos uma categoria.',
+    }));
   }
   else {
-    yield put(push('/dashboard'));
-    yield put(ProfileActions.setProfileSuccess(response.data));
-    toast.success('Perfil alterado.');
+    const response = yield call(api.put, '/users', action.data);
+
+    if (!response.ok) {
+      if (response.status === 400) {
+        yield put(toastrActions.add({
+          type: 'error',
+          message: response.data[0].message,
+        }));
+      }
+      else {
+        yield put(toastrActions.add({
+          type: 'error',
+          message: 'Ocorreu em erro ao tentar alterar o perfil.',
+        }));
+      }
+    }
+    else {
+      yield put(ProfileActions.setProfileSuccess(response.data));
+      yield put(toastrActions.add({
+        type: 'success',
+        message: 'Perfil alterado.',
+      }));
+      yield put(push('/dashboard'));
+    }
   }
 
-  yield put(ProfileActions.setProfileComplete(response.data));
+  return yield put(ProfileActions.setProfileComplete());
 }
