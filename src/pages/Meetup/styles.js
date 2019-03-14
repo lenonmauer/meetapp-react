@@ -11,6 +11,7 @@ export const Thumbnail = styled.img`
   max-width: 900px;
   max-height: 300px;
   margin-top: 40px;
+  object-fit: cover;
 `;
 
 export const Content = styled.div`

@@ -13,6 +13,7 @@ export const Thumbnail = styled.img`
   width: 100%;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  object-fit: cover;
 `;
 
 export const Content = styled.div`
