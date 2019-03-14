@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
 import { push } from 'connected-react-router';
+import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import LogoImg from '../../assets/images/logo.svg';
-
-import {
-  Button, Input, InputLabel, Spinner,
-} from '../../components';
-
 import { LoginActions } from '../../store/ducks/login';
 
-import {
-  Container, Form, InputWrapper, AccountLink,
-} from './styles';
+import LoginContainerForm from './components/LoginForm';
+import validationSchema from './validationSchema';
 
 class Login extends Component {
   state = {
-    email: '',
-    password: '',
+    submitDisabled: false,
   }
 
   componentWillMount() {
@@ -30,54 +23,25 @@ class Login extends Component {
     }
   }
 
-  onInputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  onSubmit = (event) => {
-    event.preventDefault();
-    this.props.postLoginRequest(this.state);
-  }
-
   render() {
     const { loading } = this.props.login;
+    const { submitDisabled } = this.state;
 
     return (
-      <Container>
-        <Form onSubmit={this.onSubmit} autoComplete="off">
-          <img src={LogoImg} alt="logo" />
-
-          <InputWrapper>
-            <InputLabel>Email</InputLabel>
-            <Input
-              type="text"
-              placeholder="Digite seu e-mail"
-              name="email"
-              value={this.state.email}
-              onChange={this.onInputChange}
-            />
-          </InputWrapper>
-
-          <InputWrapper>
-            <InputLabel>Senha</InputLabel>
-            <Input
-              type="password"
-              placeholder="Digite sua senha secreta"
-              name="password"
-              value={this.state.password}
-              onChange={this.onInputChange}
-            />
-          </InputWrapper>
-
-          {
-            loading ? <Spinner /> : <Button type="submit">Entrar</Button>
-          }
-
-          <AccountLink to="/signup">Criar conta grátis</AccountLink>
-        </Form>
-      </Container>
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={validationSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
+        onSubmit={values => this.props.postLoginRequest(values)}
+        render={formikProps => (
+          <LoginContainerForm
+            {...formikProps}
+            submitDisabled={submitDisabled}
+            loading={loading}
+          />
+        )}
+      />
     );
   }
 }
