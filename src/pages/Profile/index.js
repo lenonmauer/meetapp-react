@@ -109,7 +109,7 @@ class Profile extends Component {
             <InputLabel>Confirmação da senha</InputLabel>
             <Input
               type="password"
-              placeholder="Digite sua senha secreta"
+              placeholder="Digite sua senha secreta novamente"
               value={this.state.password_confirmation}
               name="password_confirmation"
               onChange={this.onInputChange}
