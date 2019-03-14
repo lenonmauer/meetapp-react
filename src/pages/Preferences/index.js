@@ -58,7 +58,7 @@ class Preferences extends Component {
     }
     else {
       this.setState({
-        categories: categories.filter(cat => Number(cat) !== Number(value)),
+        categories: categories.filter(cat => cat !== value),
       });
     }
   }
@@ -97,7 +97,7 @@ class Preferences extends Component {
                 key={category.id}
                 id={`category-${category.id}`}
                 value={String(category.id)}
-                checked={!!this.state.categories.find(cat => Number(cat) === category.id)}
+                checked={!!this.state.categories.find(cat => cat === category.id)}
                 onChange={this.onCheckboxChanged}
               >
                 {category.name}
@@ -127,10 +127,10 @@ Preferences.propTypes = {
   loadingProfile: PropTypes.bool.isRequired,
   profile: PropTypes.shape({
     name: PropTypes.string,
-    categories: PropTypes.array,
+    categories: PropTypes.arrayOf(PropTypes.string),
   }),
   categories: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     name: PropTypes.string,
   })).isRequired,
 };

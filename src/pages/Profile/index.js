@@ -39,7 +39,7 @@ class Profile extends Component {
 
     if (prevProps.profile === null && profile !== null) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(profile);
+      this.setState({ ...profile });
     }
   }
 
@@ -54,7 +54,7 @@ class Profile extends Component {
     }
     else {
       this.setState({
-        categories: categories.filter(cat => Number(cat) !== Number(value)),
+        categories: categories.filter(cat => cat !== value),
       });
     }
   }
@@ -125,7 +125,7 @@ class Profile extends Component {
                   key={category.id}
                   id={`category-${category.id}`}
                   value={String(category.id)}
-                  checked={!!this.state.categories.find(cat => Number(cat) === category.id)}
+                  checked={!!this.state.categories.find(cat => cat === category.id)}
                   onChange={this.onCheckboxChanged}
                 >
                   {category.name}
@@ -155,10 +155,10 @@ Profile.propTypes = {
   profile: PropTypes.shape({
     name: PropTypes.string,
     password: PropTypes.string,
-    categories: PropTypes.arrayOf(PropTypes.number),
+    categories: PropTypes.arrayOf(PropTypes.string),
   }),
   categories: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     name: PropTypes.string,
   })).isRequired,
   setProfileRequest: PropTypes.func.isRequired,
