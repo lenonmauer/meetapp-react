@@ -18,7 +18,6 @@ const LoginForm = ({
   touched,
   errors,
   submitted,
-  submitDisabled,
   loading,
 }) => (
   <Container>
@@ -55,7 +54,7 @@ const LoginForm = ({
       {
         loading
           ? <Spinner />
-          : <Button type="submit" disabled={submitDisabled}>Entrar</Button>
+          : <Button type="submit">Entrar</Button>
       }
 
       <AccountLink to="/signup">Criar conta grátis</AccountLink>

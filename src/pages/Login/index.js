@@ -11,10 +11,6 @@ import LoginContainerForm from './components/LoginForm';
 import validationSchema from './validationSchema';
 
 class Login extends Component {
-  state = {
-    submitDisabled: false,
-  }
-
   componentWillMount() {
     const { logged } = this.props.login;
 
@@ -25,7 +21,6 @@ class Login extends Component {
 
   render() {
     const { loading } = this.props.login;
-    const { submitDisabled } = this.state;
 
     return (
       <Formik
@@ -37,7 +32,6 @@ class Login extends Component {
         render={formikProps => (
           <LoginContainerForm
             {...formikProps}
-            submitDisabled={submitDisabled}
             loading={loading}
           />
         )}
