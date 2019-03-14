@@ -14,10 +14,7 @@ const LoginForm = ({
   values,
   handleChange,
   handleSubmit,
-  handleBlur,
-  touched,
   errors,
-  submitted,
   loading,
 }) => (
   <Container>
@@ -31,7 +28,6 @@ const LoginForm = ({
           placeholder="Digite seu e-mail"
           name="email"
           value={values.email}
-          onBlur={handleBlur}
           onChange={handleChange}
           autoFocus
         />
@@ -45,7 +41,6 @@ const LoginForm = ({
           placeholder="Digite sua senha secreta"
           name="password"
           value={values.password}
-          onBlur={handleBlur}
           onChange={handleChange}
         />
         {<ValidationError>{errors.password}</ValidationError>}
