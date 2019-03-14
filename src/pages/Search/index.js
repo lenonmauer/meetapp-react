@@ -58,7 +58,7 @@ class Search extends Component {
                   <MeetupWrapper>
                     {
                       subscriptions.length
-                        ? subscriptions.map(meetup => <MeetupItem key={meetup.id} {...meetup} />)
+                        ? subscriptions.map(meetup => <MeetupItem key={meetup._id} {...meetup} />)
                         : <EmptyMessage>Nenhum meetup encontrado nesta seção.</EmptyMessage>
                     }
                   </MeetupWrapper>
@@ -69,7 +69,7 @@ class Search extends Component {
                   <MeetupWrapper>
                     {
                       next.length
-                        ? next.map(meetup => <MeetupItem key={meetup.id} {...meetup} />)
+                        ? next.map(meetup => <MeetupItem key={meetup._id} {...meetup} />)
                         : <EmptyMessage>Nenhum meetup encontrado nesta seção.</EmptyMessage>
                     }
                   </MeetupWrapper>
@@ -80,7 +80,7 @@ class Search extends Component {
                   <MeetupWrapper>
                     {
                       recommended.length
-                        ? recommended.map(meetup => <MeetupItem key={meetup.id} {...meetup} />)
+                        ? recommended.map(meetup => <MeetupItem key={meetup._id} {...meetup} />)
                         : <EmptyMessage>Nenhum meetup encontrado nesta seção.</EmptyMessage>
                     }
                   </MeetupWrapper>
@@ -94,8 +94,8 @@ class Search extends Component {
   }
 }
 
-const sanitizeMeetups = (meetups) => {
-  if (!meetups || !meetups.subscriptions) {
+const sanitizeMeetups = (data) => {
+  if (!data || !data.recommended) {
     return {
       subscriptions: [],
       next: [],
@@ -103,7 +103,16 @@ const sanitizeMeetups = (meetups) => {
     };
   }
 
-  return meetups;
+  const addCount = meetups => meetups.map(meetup => ({
+    ...meetup,
+    members_count: meetup.subscriptions.length,
+  }));
+
+  return {
+    subscriptions: addCount(data.subscriptions),
+    next: addCount(data.next),
+    recommended: addCount(data.recommended),
+  };
 };
 
 Search.defaultProps = {
@@ -115,22 +124,28 @@ Search.propTypes = {
   loadingMeetups: PropTypes.bool.isRequired,
   meetups: PropTypes.shape({
     subscriptions: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
       title: PropTypes.string,
       members_count: PropTypes.number,
-      photo_url: PropTypes.string,
+      photo: PropTypes.shape({
+        url: PropTypes.string,
+      }).isRequired,
     })),
     next: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
       title: PropTypes.string,
       members_count: PropTypes.number,
-      photo_url: PropTypes.string,
+      photo: PropTypes.shape({
+        url: PropTypes.string,
+      }).isRequired,
     })),
     recommended: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
       title: PropTypes.string,
       members_count: PropTypes.number,
-      photo_url: PropTypes.string,
+      photo: PropTypes.shape({
+        url: PropTypes.string,
+      }).isRequired,
     })),
   }),
 };

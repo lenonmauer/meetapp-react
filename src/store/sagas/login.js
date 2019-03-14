@@ -15,16 +15,17 @@ export function* login(action) {
 
     return response.data.first_login ? yield put(push('/preferences')) : yield put(push('/dashboard'));
   }
-  if (response.status === 401) {
+
+  if (response.status === 400) {
     yield put(toastrActions.add({
       type: 'error',
-      message: 'E-mail ou senha inválidos.',
+      message: response.data.error,
     }));
   }
-  else if (response.status === 400) {
+  else if (response.status === 422) {
     yield put(toastrActions.add({
       type: 'error',
-      message: response.data[0].message,
+      message: 'As informações contidas no formulário estão inválidas.',
     }));
   }
   else {

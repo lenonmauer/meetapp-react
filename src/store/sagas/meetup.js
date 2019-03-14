@@ -17,7 +17,13 @@ export function* newMeetup(action) {
   else if (response.status === 400) {
     yield put(toastrActions.add({
       type: 'error',
-      message: response.data[0].message,
+      message: response.data.error,
+    }));
+  }
+  else if (response.status === 422) {
+    yield put(toastrActions.add({
+      type: 'error',
+      message: 'As informações contidas no formulário estão inválidas.',
     }));
   }
   else {

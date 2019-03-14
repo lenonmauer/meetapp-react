@@ -36,7 +36,7 @@ class Meetup extends Component {
         : (
           <ButtonWrapper>
             <Button
-              onClick={() => this.props.postSubscriptionRequest(meetup.id, this.setSubscript)}
+              onClick={() => this.props.postSubscriptionRequest(meetup._id, this.setSubscript)}
             >
           Inscreva-se
             </Button>
@@ -55,7 +55,7 @@ class Meetup extends Component {
 
     return (
       <Container>
-        <Thumbnail src={meetup.photo_url} />
+        <Thumbnail src={meetup.photo.url} />
         <Content>
           <Title>{meetup.title}</Title>
           <MembersCount>{meetup.members_count} membros</MembersCount>
@@ -86,7 +86,9 @@ Meetup.propTypes = {
   postSubscriptionRequest: PropTypes.func.isRequired,
   loadingMeetup: PropTypes.bool.isRequired,
   meetup: PropTypes.shape({
-    photo_url: PropTypes.string.isRequired,
+    photo: PropTypes.shape({
+      url: PropTypes.string,
+    }).isRequired,
     title: PropTypes.string.isRequired,
     members_count: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
@@ -100,11 +102,14 @@ Meetup.propTypes = {
 };
 
 const sanitizeMeetup = (meetup) => {
-  if (!meetup || !meetup.id) {
+  if (!meetup || !meetup._id) {
     return null;
   }
 
-  return meetup;
+  return {
+    ...meetup,
+    members_count: meetup.subscriptions.length,
+  };
 };
 
 const mapStateToProps = state => ({

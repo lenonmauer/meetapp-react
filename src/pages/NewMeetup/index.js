@@ -22,7 +22,7 @@ class NewMeetup extends Component {
     description: '',
     date: '',
     localization: '',
-    photo_id: null,
+    photo: null,
     categories: [],
   }
 
@@ -53,13 +53,13 @@ class NewMeetup extends Component {
     }
     else {
       this.setState({
-        categories: categories.filter(cat => Number(cat) !== Number(value)),
+        categories: categories.filter(cat => cat !== value),
       });
     }
   }
 
   onFileChange = (file) => {
-    this.setState({ photo_id: file ? file.id : null });
+    this.setState({ photo: file ? file._id : null });
   }
 
   onSubmit = (event) => {
@@ -74,7 +74,7 @@ class NewMeetup extends Component {
       description: '',
       date: '',
       localization: '',
-      photo_id: null,
+      photo: null,
       categories: [],
     });
 
@@ -144,7 +144,7 @@ class NewMeetup extends Component {
                 key={category.id}
                 id={`category-${category.id}`}
                 value={String(category.id)}
-                checked={!!this.state.categories.find(cat => Number(cat) === category.id)}
+                checked={!!this.state.categories.find(cat => cat === category.id)}
                 onChange={this.onCheckboxChanged}
               >
                 {category.name}
@@ -163,7 +163,7 @@ NewMeetup.propTypes = {
   getCategoriesRequest: PropTypes.func.isRequired,
   postMeetupRequest: PropTypes.func.isRequired,
   categories: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     name: PropTypes.string,
   })).isRequired,
   loadingCategories: PropTypes.bool.isRequired,

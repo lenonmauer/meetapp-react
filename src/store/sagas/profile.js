@@ -22,7 +22,7 @@ export function* getProfile() {
 }
 
 export function* setPreferences(action) {
-  if (!action.data.length) {
+  if (!action.data.categories.length) {
     yield put(toastrActions.add({
       type: 'error',
       message: 'Selecione pelo menos uma categoria.',
@@ -64,7 +64,13 @@ export function* setProfile(action) {
       if (response.status === 400) {
         yield put(toastrActions.add({
           type: 'error',
-          message: response.data[0].message,
+          message: response.data.error,
+        }));
+      }
+      else if (response.status === 422) {
+        yield put(toastrActions.add({
+          type: 'error',
+          message: 'As informações contidas no formulário estão inválidas.',
         }));
       }
       else {
