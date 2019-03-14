@@ -20,6 +20,7 @@ class SignUp extends Component {
     name: '',
     email: '',
     password: '',
+    password_confirmation: '',
   }
 
   onInputChange = (event) => {
@@ -70,6 +71,17 @@ class SignUp extends Component {
               placeholder="Digite sua senha secreta"
               name="password"
               value={this.state.password}
+              onChange={this.onInputChange}
+            />
+          </InputWrapper>
+
+          <InputWrapper>
+            <InputLabel>Confirmação da Senha</InputLabel>
+            <Input
+              type="password"
+              placeholder="Digite sua senha secreta novamente"
+              name="password_confirmation"
+              value={this.state.password_confirmation}
               onChange={this.onInputChange}
             />
           </InputWrapper>
