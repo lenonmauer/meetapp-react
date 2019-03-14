@@ -4,6 +4,7 @@ import Input from './Input';
 import InputLabel from './InputLabel';
 import Navbar from './Navbar';
 import Spinner from './Spinner';
+import ValidationError from './ValidationError';
 
 export {
   Button,
@@ -12,4 +13,5 @@ export {
   Checkbox,
   Navbar,
   Spinner,
+  ValidationError,
 };
