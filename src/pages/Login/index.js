@@ -7,11 +7,11 @@ import { bindActionCreators } from 'redux';
 
 import { LoginActions } from '../../store/ducks/login';
 
-import LoginContainerForm from './components/LoginForm';
+import LoginForm from './components/LoginForm';
 import validationSchema from './validationSchema';
 
 class Login extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { logged } = this.props.login;
 
     if (logged === true) {
@@ -30,7 +30,7 @@ class Login extends Component {
         validateOnChange={false}
         onSubmit={values => this.props.postLoginRequest(values)}
         render={formikProps => (
-          <LoginContainerForm
+          <LoginForm
             {...formikProps}
             loading={loading}
           />
