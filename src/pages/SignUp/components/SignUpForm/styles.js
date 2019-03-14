@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const Form = styled.form`
   display: flex;
   justify-content: space-between;
-  height: 420px;
+  height: 470px;
   width: 270px;
   flex-direction: column;
 `;
