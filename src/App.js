@@ -23,7 +23,7 @@ const App = () => (
         <Content>
           <Navbar />
           <Routes />
-          <ReduxToastr closeOnToastrClick timeOut={3000} transitionIn="fadeIn" transitionOut="fadeOut" />
+          <ReduxToastr closeOnToastrClick timeOut={3000} transitionIn="fadeIn" transitionOut="fadeOut" position="bottom-right" />
         </Content>
       </Container>
     </ConnectedRouter>
