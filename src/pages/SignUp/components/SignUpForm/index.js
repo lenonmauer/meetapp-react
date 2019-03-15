@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import LogoImg from '../../../../assets/images/logo.svg';
 
@@ -14,7 +15,6 @@ const SignUpForm = ({
   values,
   handleChange,
   handleSubmit,
-  handleBlur,
   errors,
   loading,
 }) => (
@@ -31,7 +31,7 @@ const SignUpForm = ({
           value={values.name}
           onChange={handleChange}
         />
-        <ValidationError>{errors.name}</ValidationError>
+        <ValidationError when={!!errors.name} message={errors.name} />
       </InputWrapper>
 
       <InputWrapper>
@@ -43,7 +43,7 @@ const SignUpForm = ({
           value={values.email}
           onChange={handleChange}
         />
-        <ValidationError>{errors.email}</ValidationError>
+        <ValidationError when={!!errors.email} message={errors.email} />
       </InputWrapper>
 
       <InputWrapper>
@@ -55,7 +55,7 @@ const SignUpForm = ({
           value={values.password}
           onChange={handleChange}
         />
-        <ValidationError>{errors.password}</ValidationError>
+        <ValidationError when={!!errors.password} message={errors.password} />
       </InputWrapper>
 
       <InputWrapper>
@@ -67,7 +67,10 @@ const SignUpForm = ({
           value={values.password_confirmation}
           onChange={handleChange}
         />
-        <ValidationError>{errors.password_confirmation}</ValidationError>
+        <ValidationError
+          when={!!errors.password_confirmation}
+          message={errors.password_confirmation}
+        />
       </InputWrapper>
 
       {
@@ -80,5 +83,17 @@ const SignUpForm = ({
     </Form>
   </Container>
 );
+
+SignUpForm.propTypes = {
+  values: PropTypes.shape({
+    email: PropTypes.string,
+    password: PropTypes.string,
+    password_confirmation: PropTypes.string,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  errors: PropTypes.shape().isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 
 export default SignUpForm;

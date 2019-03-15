@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import LogoImg from '../../../../assets/images/logo.svg';
 
@@ -31,7 +32,7 @@ const LoginForm = ({
           onChange={handleChange}
           autoFocus
         />
-        {<ValidationError>{errors.email}</ValidationError>}
+        <ValidationError when={!!errors.email} message={errors.email} />
       </InputWrapper>
 
       <InputWrapper>
@@ -43,7 +44,7 @@ const LoginForm = ({
           value={values.password}
           onChange={handleChange}
         />
-        {<ValidationError>{errors.password}</ValidationError>}
+        <ValidationError when={!!errors.password} message={errors.password} />
       </InputWrapper>
 
       {
@@ -56,5 +57,16 @@ const LoginForm = ({
     </Form>
   </Container>
 );
+
+LoginForm.propTypes = {
+  values: PropTypes.shape({
+    email: PropTypes.string,
+    password: PropTypes.string,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  errors: PropTypes.shape().isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 
 export default LoginForm;
