@@ -10,7 +10,7 @@ export const Container = styled.div`
 export const Form = styled.form`
   display: flex;
   justify-content: space-between;
-  height: 500px;
+  height: 520px;
   width: 270px;
   flex-direction: column;
 `;
@@ -18,7 +18,4 @@ export const Form = styled.form`
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const CategoriesWrapper = styled.div`
 `;

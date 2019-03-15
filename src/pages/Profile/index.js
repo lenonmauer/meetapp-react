@@ -2,78 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Formik } from 'formik';
 
 import { ProfileActions } from '../../store/ducks/profile';
 import { CategoriesActions } from '../../store/ducks/categories';
 
-import {
-  Button, Input, InputLabel, Checkbox, Spinner,
-} from '../../components';
+import { Spinner } from '../../components';
 
-import {
-  Container, Form, InputWrapper, CategoriesWrapper,
-} from './styles';
+import ProfileForm from './components/ProfileForm';
+import validationSchema from './validationSchema';
 
 class Profile extends Component {
-  state = {
-    categories: [],
-    name: '',
-    password: '',
-    password_confirmation: '',
-  }
-
   componentDidMount() {
-    const { profile } = this.props;
-
-    if (profile) {
-      this.setState(profile);
-    }
-    else {
-      this.props.getProfileRequest();
-      this.props.getCategoriesRequest();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { profile } = this.props;
-
-    if (prevProps.profile === null && profile !== null) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ ...profile });
-    }
-  }
-
-  onCheckboxChanged = (event) => {
-    const { checked, value } = event.target;
-    const { categories } = this.state;
-
-    if (checked) {
-      this.setState({
-        categories: [...categories, value],
-      });
-    }
-    else {
-      this.setState({
-        categories: categories.filter(cat => cat !== value),
-      });
-    }
-  }
-
-  onInputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  onSubmit = (event) => {
-    event.preventDefault();
-    this.props.setProfileRequest(this.state);
-    return null;
+    this.props.getProfileRequest();
+    this.props.getCategoriesRequest();
   }
 
   render() {
     const {
-      profile, categories, loadingProfile, loadingCategories,
+      profile, categories, loadingProfile, loadingCategories, setProfileRequest,
     } = this.props;
 
     if (!profile || loadingCategories) {
@@ -81,68 +28,25 @@ class Profile extends Component {
     }
 
     return (
-      <Container>
-        <Form onSubmit={this.onSubmit}>
-          <InputWrapper>
-            <InputLabel>Nome</InputLabel>
-            <Input
-              type="text"
-              placeholder="Digite seu nome"
-              value={this.state.name}
-              name="name"
-              onChange={this.onInputChange}
-            />
-          </InputWrapper>
-
-          <InputWrapper>
-            <InputLabel>Senha</InputLabel>
-            <Input
-              type="password"
-              placeholder="Digite sua senha secreta"
-              value={this.state.password}
-              name="password"
-              onChange={this.onInputChange}
-            />
-          </InputWrapper>
-
-          <InputWrapper>
-            <InputLabel>Confirmação da senha</InputLabel>
-            <Input
-              type="password"
-              placeholder="Digite sua senha secreta novamente"
-              value={this.state.password_confirmation}
-              name="password_confirmation"
-              onChange={this.onInputChange}
-            />
-          </InputWrapper>
-
-          <div>
-            <InputLabel>Preferências</InputLabel>
-
-            <CategoriesWrapper>
-              {categories.map(category => (
-                <Checkbox
-                  key={category.id}
-                  id={`category-${category.id}`}
-                  value={String(category.id)}
-                  checked={!!this.state.categories.find(cat => cat === category.id)}
-                  onChange={this.onCheckboxChanged}
-                >
-                  {category.name}
-                </Checkbox>
-              ))}
-            </CategoriesWrapper>
-          </div>
-
-          {loadingProfile ? (
-            <Spinner />
-          ) : (
-            <Button type="submit">
-              Salvar
-            </Button>
-          )}
-        </Form>
-      </Container>
+      <Formik
+        initialValues={{
+          categories: profile.categories,
+          name: profile.name,
+          password: '',
+          password_confirmation: '',
+        }}
+        validationSchema={validationSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
+        onSubmit={values => setProfileRequest(values)}
+        render={formikProps => (
+          <ProfileForm
+            {...formikProps}
+            categories={categories}
+            loading={loadingProfile}
+          />
+        )}
+      />
     );
   }
 }
