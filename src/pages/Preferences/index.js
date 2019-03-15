@@ -2,78 +2,36 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Formik } from 'formik';
 
 import {
-  Button, Checkbox, InputLabel, Spinner,
+  Spinner,
 } from '../../components';
+
+import {
+  Container, Box, DisplayName, Text,
+} from './styles';
 
 import { ProfileActions } from '../../store/ducks/profile';
 import { CategoriesActions } from '../../store/ducks/categories';
 
-import {
-  Container, Box, DisplayName, Text, CategoriesWrapper,
-} from './styles';
+import PreferencesForm from './components/PreferencesForm';
+
+import validationSchema from './validationSchema';
 
 class Preferences extends Component {
-  state = {
-    categories: [],
-  }
-
   componentDidMount() {
-    const { profile } = this.props;
-
     if (localStorage.getItem('@meetapp/first_login')) {
       localStorage.removeItem('@meetapp/first_login');
     }
 
-    if (profile) {
-      this.updateStateFromProps(profile.categories);
-    }
-    else {
-      this.props.getProfileRequest();
-      this.props.getCategoriesRequest();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { profile } = this.props;
-
-    if (!prevProps.profile && !!profile) {
-      this.updateStateFromProps(profile.categories);
-    }
-  }
-
-  updateStateFromProps = (categories) => {
-    this.setState({ categories });
-  }
-
-  onCheckboxChanged = (event) => {
-    const { checked, value } = event.target;
-    const { categories } = this.state;
-
-    if (checked) {
-      this.setState({
-        categories: [...categories, value],
-      });
-    }
-    else {
-      this.setState({
-        categories: categories.filter(cat => cat !== value),
-      });
-    }
-  }
-
-  onSubmit = () => {
-    const { categories } = this.state;
-
-    this.props.setPreferencesRequest({ categories });
-
-    return null;
+    this.props.getProfileRequest();
+    this.props.getCategoriesRequest();
   }
 
   render() {
     const {
-      profile, categories, loadingProfile, loadingCategories,
+      profile, categories, loadingProfile, loadingCategories, setPreferencesRequest,
     } = this.props;
 
     if (!profile || loadingCategories) {
@@ -84,31 +42,28 @@ class Preferences extends Component {
       <Container>
         <Box>
           <DisplayName>Olá, {profile.name}</DisplayName>
+
           <Text>
             Parece que é seu primeiro acesso por aqui, comece escolhendo algumas preferências para
             selecionarmos os melhores meetups pra você:
           </Text>
 
-          <InputLabel>Preferências</InputLabel>
-
-          <CategoriesWrapper>
-            {categories.map(category => (
-              <Checkbox
-                key={category.id}
-                id={`category-${category.id}`}
-                value={String(category.id)}
-                checked={!!this.state.categories.find(cat => cat === category.id)}
-                onChange={this.onCheckboxChanged}
-              >
-                {category.name}
-              </Checkbox>
-            ))}
-          </CategoriesWrapper>
-
-          {
-          loadingProfile ? <Spinner /> : <Button type="button" onClick={this.onSubmit}>Continuar</Button>
-        }
-
+          <Formik
+            initialValues={{
+              categories: profile.categories,
+            }}
+            validationSchema={validationSchema}
+            validateOnBlur={false}
+            validateOnChange={false}
+            onSubmit={values => setPreferencesRequest(values)}
+            render={formikProps => (
+              <PreferencesForm
+                {...formikProps}
+                categories={categories}
+                loading={loadingProfile}
+              />
+            )}
+          />
         </Box>
       </Container>
     );
