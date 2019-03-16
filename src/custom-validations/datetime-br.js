@@ -29,7 +29,7 @@ const isTime = (value) => {
 
 const isFormatCorrect = value => !!value.match(/^\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}$/);
 
-export const isDateTimeBR = (value) => {
+export const isDateTimeBR = (value = '') => {
   const [date, time] = value.split(' ');
 
   return isFormatCorrect(value) && isDateBR(date) && isTime(time);
