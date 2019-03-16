@@ -76,7 +76,7 @@ class NewMeetupForm extends Component {
             <InputLabel>Data e hora do início</InputLabel>
             <Date
               name="date"
-              mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]}
+              mask="11/11/1111 11:11"
               value={values.date}
               onChange={handleChange}
               placeholder="informe a data de início do meetup"

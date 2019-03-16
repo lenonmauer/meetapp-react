@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import MaskedInput from 'react-text-mask';
+import MaskedInput from 'react-maskedinput';
 
 export const Container = styled.div`
   flex: 1;
