@@ -11,8 +11,10 @@ import { UploadActions } from '../../../../store/ducks/upload';
 import { DropContainer, ThumbContainer, Thumbnail } from './styles';
 
 class Upload extends Component {
-  componentDidUpdate() {
-    this.props.onFileChange(this.props.uploadedFile);
+  componentDidUpdate(prevProps) {
+    if (this.props.uploadedFile !== prevProps.uploadedFile) {
+      this.props.onFileChange(this.props.uploadedFile);
+    }
   }
 
   onUpload = (files) => {
