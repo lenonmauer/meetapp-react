@@ -96,7 +96,6 @@ const ProfileForm = ({
   );
 };
 
-
 ProfileForm.propTypes = {
   values: PropTypes.shape({
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
