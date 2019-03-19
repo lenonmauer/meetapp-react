@@ -1,4 +1,4 @@
-import { reducer, LoginActions as actions } from '../login';
+import { reducer, LoginActions as actions } from '../../store/ducks/login';
 
 describe('Testing login reducer', () => {
   it('should set loading as true on request', () => {

@@ -1,4 +1,4 @@
-import { reducer, UploadActions as actions } from '../upload';
+import { reducer, UploadActions as actions } from '../../store/ducks/upload';
 
 describe('Testing upload reducer', () => {
   it('should set loading as true on request', () => {

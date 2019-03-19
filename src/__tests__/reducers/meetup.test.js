@@ -1,4 +1,4 @@
-import { reducer, MeetupActions as actions } from '../meetup';
+import { reducer, MeetupActions as actions } from '../../store/ducks/meetup';
 
 describe('Testing meetup reducer', () => {
   it('should set loading=true and data=null on request', () => {

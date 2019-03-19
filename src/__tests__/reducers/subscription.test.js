@@ -1,4 +1,4 @@
-import { reducer, SubscriptionActions as actions } from '../subscription';
+import { reducer, SubscriptionActions as actions } from '../../store/ducks/subscription';
 
 describe('Testing subscription reducer', () => {
   it('should set loading as true on request', () => {

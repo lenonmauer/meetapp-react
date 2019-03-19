@@ -1,4 +1,4 @@
-import { reducer, ProfileActions as actions } from '../profile';
+import { reducer, ProfileActions as actions } from '../../store/ducks/profile';
 
 describe('Testing profile reducer', () => {
   it('should set loading as true on request', () => {

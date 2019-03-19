@@ -1,4 +1,4 @@
-import { reducer, SignUpActions as actions } from '../signup';
+import { reducer, SignUpActions as actions } from '../../store/ducks/signup';
 
 describe('Testing signup reducer', () => {
   it('should set loading as true on request', () => {

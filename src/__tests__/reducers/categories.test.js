@@ -1,4 +1,4 @@
-import { reducer, CategoriesActions as actions } from '../categories';
+import { reducer, CategoriesActions as actions } from '../../store/ducks/categories';
 
 describe('Testing categories reducer', () => {
   it('should set loading as true on request', () => {

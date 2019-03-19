@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { push } from 'connected-react-router';
-import { Formik } from 'formik';
+import { withFormik } from 'formik';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 
 import { LoginActions } from '../../store/ducks/login';
 
-import LoginForm from './components/LoginForm';
 import validationSchema from './validationSchema';
+
+import LogoImg from '../../assets/images/logo.svg';
+
+import {
+  Input, InputLabel, Spinner, Button, ValidationError,
+} from '../../components';
+
+import {
+  Container, Form, InputWrapper, AccountLink,
+} from './styles';
 
 class Login extends Component {
   componentDidMount() {
@@ -20,22 +29,49 @@ class Login extends Component {
   }
 
   render() {
-    const { loading } = this.props.login;
+    const {
+      handleChange, values, handleSubmit, errors, login: { loading },
+    } = this.props;
 
     return (
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        validationSchema={validationSchema}
-        validateOnBlur={false}
-        validateOnChange={false}
-        onSubmit={values => this.props.postLoginRequest(values)}
-        render={formikProps => (
-          <LoginForm
-            {...formikProps}
-            loading={loading}
-          />
-        )}
-      />
+      <Container>
+        <Form onSubmit={handleSubmit} autoComplete="off">
+          <img src={LogoImg} alt="logo" />
+
+          <InputWrapper>
+            <InputLabel>Email</InputLabel>
+            <Input
+              type="text"
+              placeholder="Digite seu e-mail"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              autoFocus
+            />
+            <ValidationError when={!!errors.email} message={errors.email} />
+          </InputWrapper>
+
+          <InputWrapper>
+            <InputLabel>Senha</InputLabel>
+            <Input
+              type="password"
+              placeholder="Digite sua senha secreta"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+            />
+            <ValidationError when={!!errors.password} message={errors.password} />
+          </InputWrapper>
+
+          {
+            loading
+              ? <Spinner />
+              : <Button type="submit">Entrar</Button>
+          }
+
+          <AccountLink to="/signup">Criar conta grátis</AccountLink>
+        </Form>
+      </Container>
     );
   }
 }
@@ -46,6 +82,13 @@ Login.propTypes = {
     loading: PropTypes.bool,
   }).isRequired,
   postLoginRequest: PropTypes.func.isRequired,
+  values: PropTypes.shape({
+    email: PropTypes.string,
+    password: PropTypes.string,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  errors: PropTypes.shape().isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -55,4 +98,23 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators(LoginActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withFormik({
+    mapPropsToValues: ({ values }) => values
+      || {
+        email: '',
+        password: '',
+      },
+
+    validationSchema,
+
+    validateOnChange: false,
+    validateOnBlur: false,
+
+    handleSubmit: (values, { props }) => props.postLoginRequest(values),
+  }),
+)(Login);
