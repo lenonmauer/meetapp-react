@@ -8,7 +8,7 @@ import { SignUpActions } from '../../store/ducks/signup';
 
 import validationSchema from './validationSchema';
 
-import LogoImg from '../../../../assets/images/logo.svg';
+import LogoImg from '../../assets/images/logo.svg';
 
 import {
   Input, InputLabel, Spinner, Button, ValidationError,
@@ -125,6 +125,6 @@ export default compose(
     validateOnChange: false,
     validateOnBlur: false,
 
-    handleSubmit: (values, { props }) => props.postLoginRequest(values),
+    handleSubmit: (values, { props }) => props.postSignUpRequest(values),
   }),
 )(SignUp);
