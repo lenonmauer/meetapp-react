@@ -24,7 +24,7 @@ class Login extends Component {
     const { logged } = this.props.login;
 
     if (logged === true) {
-      push('/dashboard');
+      this.props.push('/dashboard');
     }
   }
 
@@ -82,6 +82,7 @@ Login.propTypes = {
     loading: PropTypes.bool,
   }).isRequired,
   postLoginRequest: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
   values: PropTypes.shape({
     email: PropTypes.string,
     password: PropTypes.string,
@@ -96,7 +97,7 @@ const mapStateToProps = state => ({
   profile: state.profile,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(LoginActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ ...LoginActions, push }, dispatch);
 
 export default compose(
   connect(
