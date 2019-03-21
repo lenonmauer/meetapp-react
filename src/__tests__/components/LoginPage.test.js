@@ -5,7 +5,6 @@ import createStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 
 import LoginPage from '../../pages/Login';
-import DashboardPage from '../../pages/Dashboard';
 
 import { LoginActions } from '../../store/ducks/login';
 
@@ -56,8 +55,39 @@ describe('Login Page', () => {
     expect(store.getActions().length).toEqual(0);
   });
 
+  it('should render loading spinner when requested', () => {
+    const storeWithoutLoading = mockStore({
+      login: {
+        loading: false,
+      },
+    });
+
+    const storeWithLoading = mockStore({
+      login: {
+        loading: true,
+      },
+    });
+
+    const wrapper = getWrapper(storeWithoutLoading);
+
+    expect(wrapper.find('Spinner')).toHaveLength(0);
+
+    wrapper.setProps({ store: storeWithLoading });
+    wrapper.update();
+
+    expect(wrapper.find('Spinner')).toHaveLength(1);
+  });
+
   it('should redirect to dashboard when user is already logged in', async () => {
-    const store = getStore({ login: { logged: true } });
-    const wrapper = getWrapper(store);
+    const store = mockStore({
+      login: {
+        logged: true,
+        loading: false,
+      },
+    });
+
+    getWrapper(store);
+
+    expect(store.getActions()[0].type).toEqual('@@router/CALL_HISTORY_METHOD');
   });
 });
