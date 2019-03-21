@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import createStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 
-import SignUp from '../../pages/SignUp';
+import SignUpPage from '../../pages/SignUp';
 
 import { SignUpActions } from '../../store/ducks/signup';
 
@@ -25,7 +25,7 @@ const getStore = (state = {}) => mockStore({ ...INITIAL_STATE, ...state });
 const getWrapper = (store, values = {}) => mount(
   <Provider store={store}>
     <MemoryRouter>
-      <SignUp values={values} />
+      <SignUpPage values={values} />
     </MemoryRouter>
   </Provider>,
 );
@@ -33,7 +33,9 @@ const getWrapper = (store, values = {}) => mount(
 describe('SignUp Page', () => {
   it('should call postLoginRequest action when form data is valid', async () => {
     const store = getStore();
-    const data = { email: 'email@email.com', password: 'password' };
+    const data = {
+      email: 'email@email.com', password: 'password', name: 'Name', password_confirmation: 'password',
+    };
     const wrapper = getWrapper(store, data);
 
     wrapper.find('form').simulate('submit');
@@ -52,5 +54,28 @@ describe('SignUp Page', () => {
     await hackToFormik();
 
     expect(store.getActions().length).toEqual(0);
+  });
+
+  it('should render loading spinner when requested', () => {
+    const storeWithoutLoading = mockStore({
+      signup: {
+        loading: false,
+      },
+    });
+
+    const storeWithLoading = mockStore({
+      signup: {
+        loading: true,
+      },
+    });
+
+    const wrapper = getWrapper(storeWithoutLoading);
+
+    expect(wrapper.find('Spinner')).toHaveLength(0);
+
+    wrapper.setProps({ store: storeWithLoading });
+    wrapper.update();
+
+    expect(wrapper.find('Spinner')).toHaveLength(1);
   });
 });
