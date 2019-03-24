@@ -3,6 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { actions as toastrActions } from 'react-redux-toastr';
 import api from '../../services/api';
 import rootSaga from '../../store/sagas';
+import { mockFormDataAppend } from '../../__mocks__/FormData';
 
 import {
   UploadActions,
@@ -15,12 +16,9 @@ describe('Upload Saga', () => {
   let sagaTester = null;
 
   beforeEach(() => {
+    mockFormDataAppend.mockClear();
     sagaTester = new SagaTester({});
     sagaTester.run(rootSaga);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
   });
 
   it('should be able to do uploads', async () => {
@@ -28,18 +26,13 @@ describe('Upload Saga', () => {
       name: 'file.jpg',
     };
 
-    const appendSpy = jest.fn();
-    const mockFormData = jest.fn().mockImplementation(() => ({ append: appendSpy }));
-
-    global.FormData = mockFormData;
-
     apiMock.onPost('/upload').reply(200, fixture);
 
     sagaTester.dispatch(UploadActions.uploadRequest(fixture));
 
     await sagaTester.waitFor(UploadTypes.UPLOAD_SUCCESS);
 
-    expect(appendSpy).toHaveBeenCalledWith('photo', fixture);
+    expect(mockFormDataAppend).toHaveBeenCalledWith('photo', fixture);
 
     expect(sagaTester.getLatestCalledAction()).toEqual(
       UploadActions.uploadSuccess(fixture),
