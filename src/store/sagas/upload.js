@@ -18,7 +18,7 @@ export function* doUpload(action) {
   if (response.status === 400) {
     yield put(toastrActions.add({
       type: 'error',
-      message: response.data[0].message,
+      message: response.data.error,
     }));
   }
   else {
