@@ -1,5 +1,6 @@
 import SagaTester from 'redux-saga-tester';
 import MockAdapter from 'axios-mock-adapter';
+import { actions as toastrActions } from 'react-redux-toastr';
 import api from '../../services/api';
 import rootSaga from '../../store/sagas/index';
 
@@ -66,10 +67,13 @@ describe('Categories Saga', () => {
 
     const calledActions = sagaTester.getCalledActions();
 
-    expect(calledActions[1]).toEqual(
+    expect(calledActions[1]).toEqual(toastrActions.add({
+      type: 'error',
+      message: 'Ocorreu em erro ao buscar as categorias.',
+    }));
+
+    expect(calledActions[2]).toEqual(
       CategoriesActions.getCategoriesFailure(),
     );
-
-    expect(calledActions[2].type).toEqual('@ReduxToastr/toastr/ADD');
   });
 });
