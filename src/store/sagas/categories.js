@@ -11,11 +11,11 @@ export function* getCategories() {
     yield put(CategoriesActions.getCategoriesSuccess(response.data));
   }
   else {
-    yield put(CategoriesActions.getCategoriesFailure());
-
     yield put(toastrActions.add({
       type: 'error',
       message: 'Ocorreu em erro ao buscar as categorias.',
     }));
+
+    yield put(CategoriesActions.getCategoriesFailure());
   }
 }
