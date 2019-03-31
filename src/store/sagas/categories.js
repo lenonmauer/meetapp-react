@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
-import { actions as toastrActions } from 'react-redux-toastr';
 import api from '../../services/api';
+import handleError from './error-handler';
 
 import { CategoriesActions } from '../ducks/categories';
 
@@ -11,11 +11,7 @@ export function* getCategories() {
     yield put(CategoriesActions.getCategoriesSuccess(response.data));
   }
   else {
-    yield put(toastrActions.add({
-      type: 'error',
-      message: 'Ocorreu em erro ao buscar as categorias.',
-    }));
-
+    yield put(handleError(response, 'Ocorreu um erro ao buscar as categorias.'));
     yield put(CategoriesActions.getCategoriesFailure());
   }
 }

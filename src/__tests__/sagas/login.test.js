@@ -5,10 +5,7 @@ import { actions as toastrActions } from 'react-redux-toastr';
 import api from '../../services/api';
 import rootSaga from '../../store/sagas';
 
-import {
-  LoginActions,
-  LoginTypes,
-} from '../../store/ducks/login';
+import { LoginActions, LoginTypes } from '../../store/ducks/login';
 
 const apiMock = new MockAdapter(api.axiosInstance);
 
@@ -24,7 +21,7 @@ describe('Login Saga', () => {
     jest.clearAllMocks();
   });
 
-  it('should be able to authenticate the user and redirect to preferences if it is the user\'s first login', async () => {
+  it("should be able to authenticate the user and redirect to preferences if it is the user's first login", async () => {
     const fixture = {
       token: 'e2E6IDJ9',
       first_login: true,
@@ -38,18 +35,14 @@ describe('Login Saga', () => {
 
     const calledActions = sagaTester.getCalledActions();
 
-    expect(calledActions[1]).toEqual(
-      LoginActions.postLoginSuccess(),
-    );
+    expect(calledActions[1]).toEqual(LoginActions.postLoginSuccess());
 
-    expect(calledActions[2]).toEqual(
-      push('/preferences'),
-    );
+    expect(calledActions[2]).toEqual(push('/preferences'));
 
     expect(localStorage.setItem).toHaveBeenCalledWith('@meetapp/token', fixture.token);
   });
 
-  it('should be able to authenticate the user and redirect to dashboard if it is not the user\'s first login', async () => {
+  it("should be able to authenticate the user and redirect to dashboard if it is not the user's first login", async () => {
     const fixture = {
       token: 'e2E6IDJ9',
       first_login: false,
@@ -63,62 +56,14 @@ describe('Login Saga', () => {
 
     const calledActions = sagaTester.getCalledActions();
 
-    expect(calledActions[1]).toEqual(
-      LoginActions.postLoginSuccess(),
-    );
+    expect(calledActions[1]).toEqual(LoginActions.postLoginSuccess());
 
-    expect(calledActions[2]).toEqual(
-      push('/dashboard'),
-    );
+    expect(calledActions[2]).toEqual(push('/dashboard'));
 
     expect(localStorage.setItem).toHaveBeenCalledWith('@meetapp/token', fixture.token);
   });
 
-  it('should fail if response is not ok', async () => {
-    const fixture = {
-      error: 'Error',
-    };
-
-    apiMock.onPost('/login').reply(400, fixture);
-
-    sagaTester.dispatch(LoginActions.postLoginRequest());
-
-    await sagaTester.waitFor(LoginTypes.POST_LOGIN_FAILURE);
-
-    const calledActions = sagaTester.getCalledActions();
-
-    expect(calledActions[1]).toEqual(toastrActions.add({
-      type: 'error',
-      message: fixture.error,
-    }));
-
-    expect(calledActions[2]).toEqual(
-      LoginActions.postLoginFailure(),
-    );
-  });
-
-  it('should fail if response is not ok', async () => {
-    apiMock.onPost('/login').reply(422, {});
-
-    sagaTester.dispatch(LoginActions.postLoginRequest());
-
-    await sagaTester.waitFor(LoginTypes.POST_LOGIN_FAILURE);
-
-    const calledActions = sagaTester.getCalledActions();
-
-    expect(calledActions[1].type).toEqual('@ReduxToastr/toastr/ADD');
-
-    expect(calledActions[1]).toEqual(toastrActions.add({
-      type: 'error',
-      message: 'As informações contidas no formulário estão inválidas.',
-    }));
-
-    expect(calledActions[2]).toEqual(
-      LoginActions.postLoginFailure(),
-    );
-  });
-
-  it('should fail if response is not ok', async () => {
+  it('should show a toast message when an server error occurs', async () => {
     apiMock.onPost('/login').reply(500, {});
 
     sagaTester.dispatch(LoginActions.postLoginRequest());
@@ -129,13 +74,13 @@ describe('Login Saga', () => {
 
     expect(calledActions[1].type).toEqual('@ReduxToastr/toastr/ADD');
 
-    expect(calledActions[1]).toEqual(toastrActions.add({
-      type: 'error',
-      message: 'Ocorreu em erro no servidor nesta requisição.',
-    }));
-
-    expect(calledActions[2]).toEqual(
-      LoginActions.postLoginFailure(),
+    expect(calledActions[1]).toEqual(
+      toastrActions.add({
+        type: 'error',
+        message: 'Ocorreu um erro no servidor nesta requisição.',
+      }),
     );
+
+    expect(calledActions[2]).toEqual(LoginActions.postLoginFailure());
   });
 });

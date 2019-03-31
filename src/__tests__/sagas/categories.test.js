@@ -4,10 +4,7 @@ import { actions as toastrActions } from 'react-redux-toastr';
 import api from '../../services/api';
 import rootSaga from '../../store/sagas/index';
 
-import {
-  CategoriesActions,
-  CategoriesTypes,
-} from '../../store/ducks/categories';
+import { CategoriesActions, CategoriesTypes } from '../../store/ducks/categories';
 
 const apiMock = new MockAdapter(api.axiosInstance);
 
@@ -58,8 +55,8 @@ describe('Categories Saga', () => {
     );
   });
 
-  it('should fail if response is not ok', async () => {
-    apiMock.onGet('/categories').reply(400, {});
+  it('should show a toast message when an server error occurs', async () => {
+    apiMock.onGet('/categories').reply(500, {});
 
     sagaTester.dispatch(CategoriesActions.getCategoriesRequest());
 
@@ -67,13 +64,13 @@ describe('Categories Saga', () => {
 
     const calledActions = sagaTester.getCalledActions();
 
-    expect(calledActions[1]).toEqual(toastrActions.add({
-      type: 'error',
-      message: 'Ocorreu em erro ao buscar as categorias.',
-    }));
-
-    expect(calledActions[2]).toEqual(
-      CategoriesActions.getCategoriesFailure(),
+    expect(calledActions[1]).toEqual(
+      toastrActions.add({
+        type: 'error',
+        message: 'Ocorreu um erro ao buscar as categorias.',
+      }),
     );
+
+    expect(calledActions[2]).toEqual(CategoriesActions.getCategoriesFailure());
   });
 });

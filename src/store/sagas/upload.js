@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
-import { actions as toastrActions } from 'react-redux-toastr';
 import api from '../../services/api';
+import handleError from './error-handler';
 
 import { UploadActions } from '../ducks/upload';
 
@@ -12,21 +12,10 @@ export function* doUpload(action) {
   const response = yield call(api.post, '/upload', formData);
 
   if (response.ok) {
-    return yield put(UploadActions.uploadSuccess(response.data));
-  }
-
-  if (response.status === 400) {
-    yield put(toastrActions.add({
-      type: 'error',
-      message: response.data.error,
-    }));
+    yield put(UploadActions.uploadSuccess(response.data));
   }
   else {
-    yield put(toastrActions.add({
-      type: 'error',
-      message: 'Ocorreu em erro no upload do arquivo.',
-    }));
+    yield put(handleError(response, 'Ocorreu um erro no upload do arquivo.'));
+    yield put(UploadActions.uploadFailure());
   }
-
-  return yield put(UploadActions.uploadFailure());
 }
