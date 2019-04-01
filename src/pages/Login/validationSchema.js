@@ -6,6 +6,7 @@ const validationSchema = Yup.object().shape({
     .required('Este campo é obrigatório.'),
   password: Yup.string()
     .required('Este campo é obrigatório.')
+    /* eslint-disable-next-line */
     .min(6, 'A senha deve conter no mínimo ${min} caracteres.'),
 });
 
