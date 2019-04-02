@@ -3,6 +3,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import PrivateRoute from '../components/PrivateRoute';
+import PageNotFound from '../components/PageNotFound';
 
 import Dashboard from '../pages/Dashboard';
 import Login from '../pages/Login';
@@ -26,6 +27,7 @@ const Routes = () => (
     <PrivateRoute exact path="/search" component={Search} />
     <PrivateRoute exact path="/profile" component={Profile} />
     <PrivateRoute exact path="/meetup/:id" component={Meetup} />
+    <Route path="*" exact component={PageNotFound} />
   </Switch>
 );
 
